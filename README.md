@@ -4,7 +4,7 @@ Yapo custom logger
 # Usage
 ### Package import
 ```go
-import "github.schibsted.io/Yapo/logger"
+import "github.com/Yapo/logger"
 ```
 
 ### Init module
