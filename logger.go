@@ -173,21 +173,21 @@ func consumeLogs(conf LogConfig) {
 }
 
 func logCrit(msg string) {
-	log.Printf("CRIT:\t %s\n", msg)
+	log.Printf("CRIT: %s\n", msg)
 }
 
 func logDebug(msg string) {
-	log.Printf("DEBUG:\t %s\n", msg)
+	log.Printf("DEBUG: %s\n", msg)
 }
 
 func logError(msg string) {
-	log.Printf("ERROR:\t %s\n", msg)
+	log.Printf("ERROR: %s\n", msg)
 }
 
 func logInfo(msg string) {
-	log.Printf("INFO:\t %s\n", msg)
+	log.Printf("INFO: %s\n", msg)
 }
 
 func logWarn(msg string) {
-	log.Printf("WARN:\t %s\n", msg)
+	log.Printf("WARN: %s\n", msg)
 }
