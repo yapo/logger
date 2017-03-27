@@ -57,8 +57,7 @@ func SetLogLevel(level int) {
 }
 
 func logAtLevel(debugLevel int, format string, params ...interface{}) {
-	functionCaller := funcName() + ": "
-	format = functionCaller + format
+	format = funcName() + format
 	if loggerRunning && debugLevel >= loggerLevel {
 		if len(params) > 0 {
 			logTypes[debugLevel].Channel <- fmt.Sprintf(format, params...)
@@ -198,9 +197,13 @@ func logWarn(msg string) {
 }
 
 func funcName() string {
-	pc, _, _, _ := runtime.Caller(3)
-	nameFull := runtime.FuncForPC(pc).Name()
-	nameEnd := filepath.Ext(nameFull)        // .foo
-	name := strings.TrimPrefix(nameEnd, ".") // foo
-	return name
+	pc, _, _, ok := runtime.Caller(3)
+	if ok {
+		funcPtr := runtime.FuncForPC(pc)
+		if funcPtr != nil {
+			nameEnd := filepath.Ext(funcPtr.Name())
+			return strings.TrimPrefix(nameEnd, ".") + ": "
+		}
+	}
+	return ""
 }
