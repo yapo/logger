@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 	"log/syslog"
+	"path/filepath"
+	"runtime"
+	"strings"
 	"time"
 )
 
@@ -54,6 +57,7 @@ func SetLogLevel(level int) {
 }
 
 func logAtLevel(debugLevel int, format string, params ...interface{}) {
+	format = funcName() + format
 	if loggerRunning && debugLevel >= loggerLevel {
 		if len(params) > 0 {
 			logTypes[debugLevel].Channel <- fmt.Sprintf(format, params...)
@@ -190,4 +194,16 @@ func logInfo(msg string) {
 
 func logWarn(msg string) {
 	log.Printf("WARN: %s\n", msg)
+}
+
+func funcName() string {
+	pc, _, _, ok := runtime.Caller(3)
+	if ok {
+		funcPtr := runtime.FuncForPC(pc)
+		if funcPtr != nil {
+			nameEnd := filepath.Ext(funcPtr.Name())
+			return strings.TrimPrefix(nameEnd, ".") + ": "
+		}
+	}
+	return ""
 }
